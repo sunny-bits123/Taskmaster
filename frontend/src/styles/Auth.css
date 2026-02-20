@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(135deg, #0d6efd, #4facfe);
+  height: 100vh;
+}
+
+.auth-wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  background: #ffffff;
+  width: 380px;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.auth-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: #0d6efd;
+  margin-bottom: 10px;
+}
+
+.auth-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: #0d6efd;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.auth-button:hover {
+  background-color: #084298;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.auth-footer a {
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: 600;
+}
+.forgot-password {
+  margin-top: 12px;
+  text-align: center;
+  color: #0d6efd;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+ .forgot-link {
+  margin-top: 12px;
+  text-align: right;
+}
+
+.forgot-link a {
+  font-size: 14px;
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.forgot-link a:hover {
+  text-decoration: underline;
+}
