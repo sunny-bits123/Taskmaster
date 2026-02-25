@@ -9,6 +9,8 @@ import "../styles/Dashboard.css";
 function Dashboard() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState("Low"); 
   const navigate = useNavigate();
 
   const fetchTasks = async () => {
@@ -26,9 +28,21 @@ function Dashboard() {
 
   const addTask = async () => {
     if (!title.trim()) return;
-    const res = await API.post("/tasks", { title });
-    setTasks([res.data, ...tasks]);
-    setTitle("");
+
+    try {
+      const res = await API.post("/tasks", {
+        title,
+        dueDate,
+        priority 
+      });
+
+      setTasks([res.data, ...tasks]);
+      setTitle("");
+      setDueDate("");
+      setPriority("Low");
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
   };
 
   const deleteTask = async (id) => {
@@ -36,14 +50,15 @@ function Dashboard() {
     setTasks(tasks.filter((task) => task._id !== id));
   };
 
-  // ADD THIS NEW FUNCTION
   const updateTask = (updatedTask) => {
-    setTasks(tasks.map(task => 
-      task._id === updatedTask._id ? updatedTask : task
-    ));
+    setTasks(
+      tasks.map((task) =>
+        task._id === updatedTask._id ? updatedTask : task
+      )
+    );
   };
 
-  const completed = tasks.filter(t => t.completed).length;
+  const completed = tasks.filter((t) => t.completed).length;
   const pending = tasks.length - completed;
 
   return (
@@ -66,12 +81,27 @@ function Dashboard() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+
+          <input
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
+
+          <select
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+          >
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+
           <button onClick={addTask}>+ Add Task</button>
         </div>
 
-        {/* ADD onUpdate PROP HERE */}
-        <TaskTable 
-          tasks={tasks} 
+        <TaskTable
+          tasks={tasks}
           onDelete={deleteTask}
           onUpdate={updateTask}
         />
