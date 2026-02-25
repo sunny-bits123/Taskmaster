@@ -19,6 +19,19 @@ const TaskSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    category: {
+  type: String,
+  enum: ["Work", "Study", "Personal"],
+  default: "Work"
+    },
+    dueDate: {
+  type: Date
+},
+priority: {
+  type: String,
+  enum: ["Low", "Medium", "High"],
+  default: "Low"
+}
   },
   { timestamps: true }
 );
