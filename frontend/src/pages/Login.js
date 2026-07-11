@@ -1,69 +1,112 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import API from "../services/api";
+import axios from "axios";
 import "../styles/Auth.css";
-import AuthNavbar from "../components/AuthNavbar";
 
-function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Login = () => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (error) setError("");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
     try {
-      const res = await API.post("/auth/login", { email, password });
+      const res = await axios.post("/api/auth/login", formData);
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       navigate("/dashboard");
-    } catch {
-      alert("Invalid email or password");
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <>
-      <AuthNavbar />
+    <div className="auth-page">
+      <div className="auth-card">
 
-      <div className="auth-wrapper">
-        <div className="auth-card">
-          <h2 className="auth-title">Welcome Back</h2>
-          <p className="auth-subtitle">Sign in to manage your tasks</p>
-
-          <form onSubmit={handleSubmit}>
-            <input
-              className="auth-input"
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-
-            <input
-              className="auth-input"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-
-            <button className="auth-button" type="submit">
-              Login
-            </button>
-
-            <div className="forgot-link">
-              <Link to="/forgot-password">Forgot password?</Link>
-            </div>
-          </form>
-
-          <div className="auth-footer">
-            Don’t have an account? <Link to="/register">Register</Link>
-          </div>
+        {/* Logo */}
+        <div className="auth-logo">
+          <div className="auth-logo-icon">✓</div>
+          <span className="auth-logo-name">Taskmaster</span>
         </div>
+
+        {/* Heading */}
+        <h1 className="auth-heading">Welcome back</h1>
+        <p className="auth-subheading">Sign in to manage your tasks</p>
+
+        {/* Error */}
+        {error && <div className="auth-error">{error}</div>}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit}>
+          <div className="auth-field">
+            <label htmlFor="email">Email</label>
+            <div className="auth-input-wrapper">
+              <span className="auth-input-icon">✉</span>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                autoComplete="email"
+              />
+            </div>
+          </div>
+
+          <div className="auth-field">
+            <label htmlFor="password">Password</label>
+            <div className="auth-input-wrapper">
+              <span className="auth-input-icon">🔒</span>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                autoComplete="current-password"
+              />
+            </div>
+          </div>
+
+          <div className="auth-forgot">
+            <Link to="/forgot-password">Forgot password?</Link>
+          </div>
+
+          <button
+            className="auth-btn"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Signing in..." : "Sign in"}
+          </button>
+        </form>
+
+        <p className="auth-switch">
+          Don't have an account?{" "}
+          <Link to="/register">Create one</Link>
+        </p>
+
       </div>
-    </>
+    </div>
   );
-}
+};
 
 export default Login;

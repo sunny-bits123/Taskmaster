@@ -1,45 +1,100 @@
 import React, { useState } from "react";
-import API from "../services/api";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import "../styles/Auth.css";
 
-function ForgotPassword() {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [msg, setMsg] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email.trim()) {
+      setError("Email is required");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
     try {
-      await API.post("/auth/forgot-password", { email });
-      setMsg("Password reset link sent to your email");
-    } catch {
-      setMsg("Email not registered");
+      const res = await axios.post("/api/auth/forgot-password", { email });
+      setSuccess(res.data.message || "Password reset link sent to your email");
+      setEmail("");
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="auth-wrapper">
+    <div className="auth-page">
       <div className="auth-card">
-        <h2 className="auth-title">Reset Password</h2>
 
-        {msg && <p>{msg}</p>}
+        {/* Logo */}
+        <div className="auth-logo">
+          <div className="auth-logo-icon">✓</div>
+          <span className="auth-logo-name">Taskmaster</span>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            className="auth-input"
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        {/* Heading */}
+        <h1 className="auth-heading">Reset password</h1>
+        <p className="auth-subheading">
+          Enter your email and we'll send you a reset link
+        </p>
 
-          <button className="auth-button" type="submit">
-            Send Reset Link
-          </button>
-        </form>
+        {/* Error */}
+        {error && <div className="auth-error">{error}</div>}
+
+        {/* Success */}
+        {success && <div className="auth-success">{success}</div>}
+
+        {/* Form */}
+        {!success && (
+          <form onSubmit={handleSubmit}>
+            <div className="auth-field">
+              <label htmlFor="email">Email</label>
+              <div className="auth-input-wrapper">
+                <span className="auth-input-icon">✉</span>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (error) setError("");
+                  }}
+                  required
+                  autoComplete="email"
+                />
+              </div>
+            </div>
+
+            <button
+              className="auth-btn"
+              type="submit"
+              disabled={loading}
+              style={{ marginTop: "8px" }}
+            >
+              {loading ? "Sending..." : "Send reset link"}
+            </button>
+          </form>
+        )}
+
+        <p className="auth-switch" style={{ marginTop: success ? "20px" : "0" }}>
+          Remember your password?{" "}
+          <Link to="/">Sign in</Link>
+        </p>
+
       </div>
     </div>
   );
-}
+};
 
 export default ForgotPassword;

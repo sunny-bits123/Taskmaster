@@ -1,14 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    const stored = localStorage.getItem("user");
+    if (stored) {
+      try {
+        setUser(JSON.parse(stored));
+      } catch {
+        setUser(null);
+      }
+    }
+  }, []);
 
-  const logout = () => {
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/");
@@ -16,39 +38,52 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      {/* LEFT */}
+      {/* Logo */}
       <div className="navbar-left">
-        <span className="logo-text">TaskMaster Pro</span>
+        <div className="navbar-logo-icon">✓</div>
+        <span className="navbar-logo-text">Taskmaster</span>
       </div>
 
-      {/* RIGHT */}
-      <div className="navbar-right">
-        <button className="hamburger" onClick={() => setOpen(!open)}>
+      {/* Right side */}
+      <div className="navbar-right" ref={dropdownRef}>
+        <button
+          className="hamburger"
+          onClick={() => setOpen(!open)}
+          aria-label="Menu"
+        >
           ☰
         </button>
 
+        {/* Dropdown */}
         {open && (
           <div className="dropdown">
-            {/* USER INFO */}
-            <div className="user-info">
-              <div className="avatar">
-                {user?.name?.charAt(0).toUpperCase()}
+            {/* User info */}
+            <div className="dropdown-user">
+              <div className="dropdown-avatar">
+                {user?.name?.charAt(0).toUpperCase() || "U"}
               </div>
               <div>
-                <p className="username">{user?.name}</p>
-                <p className="userid">{user?.email || user?.id}</p>
+                <p className="dropdown-name">{user?.name || "User"}</p>
+                <p className="dropdown-email">{user?.email || ""}</p>
               </div>
             </div>
 
-            <hr />
+            <div className="dropdown-divider" />
 
-            {/* MENU */}
-            <button onClick={() => navigate("/dashboard")}>📊 Dashboard</button>
-            <button disabled>⚙️ Settings</button>
+            <button
+              className="dropdown-item"
+              onClick={() => { navigate("/dashboard"); setOpen(false); }}
+            >
+              📊 Dashboard
+            </button>
 
-            <hr />
+            <button className="dropdown-item" disabled>
+              ⚙️ Settings
+            </button>
 
-            <button className="logout-btn" onClick={logout}>
+            <div className="dropdown-divider" />
+
+            <button className="dropdown-item logout" onClick={handleLogout}>
               🚪 Logout
             </button>
           </div>
