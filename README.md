@@ -1,22 +1,23 @@
-# 📝 Taskmaster - MERN Task Management Application (Ongoing Project)
+# ✅ Taskmaster — MERN Task Management Web Application
 
-🚧 This project is currently under development.
-
-Taskmaster is a full-stack task management web application built using the MERN stack.  
-It allows users to register, login securely using JWT authentication, and manage their tasks using protected REST APIs.
+A full-stack Kanban-based task management web application with JWT authentication, instant task search, inline editing, and priority/category filtering built using the MERN stack.
 
 ---
 
-## 🚀 Current Features
+## 🚀 Features
 
-- User Registration & Login
-- JWT Authentication
-- Protected REST APIs
-- Create Task
-- View All Tasks
-- Update Task
-- Delete Task
-- Basic Dashboard UI
+- 🔐 User Registration & Login with JWT Authentication
+- 📋 Kanban Board with 3 columns — To Do / In Progress / Done
+- ✏️ Inline task editing (title, priority, category, due date)
+- 🗑️ Delete tasks with confirmation
+- 🔀 Move tasks between columns with arrow buttons
+- 🔍 Real-time task search/filter
+- 📊 Stats dashboard (Total, To Do, In Progress, Completed)
+- ⚠️ Overdue task highlighting
+- 👤 User dropdown navbar with avatar
+- 🌙 Dark slate + teal theme
+- 📱 Fully responsive (mobile, tablet, desktop)
+- 🛡️ Protected routes (dashboard only accessible after login)
 
 ---
 
@@ -24,14 +25,14 @@ It allows users to register, login securely using JWT authentication, and manage
 
 ### Frontend
 - React.js
+- React Router DOM v7
 - Axios
-- CSS
+- CSS (hand-rolled, no Tailwind)
 
 ### Backend
 - Node.js
 - Express.js
-- MongoDB
-- Mongoose
+- MongoDB + Mongoose
 - JSON Web Token (JWT)
 - bcrypt.js
 
@@ -42,31 +43,59 @@ It allows users to register, login securely using JWT authentication, and manage
 ```
 Taskmaster-Pro/
 │
-├── frontend/
 ├── backend/
-└── .gitignore
+│   ├── controllers/
+│   │   └── authController.js
+│   ├── middleware/
+│   │   └── auth.js
+│   ├── models/
+│   │   ├── Task.js
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── auth.js
+│   │   └── tasks.js
+│   ├── .env
+│   ├── package.json
+│   └── server.js
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── KanbanBoard.js
+│   │   │   ├── Navbar.js
+│   │   │   └── TaskCard.js
+│   │   ├── pages/
+│   │   │   ├── Dashboard.js
+│   │   │   ├── ForgotPassword.js
+│   │   │   ├── Login.js
+│   │   │   └── Register.js
+│   │   ├── styles/
+│   │   │   ├── Auth.css
+│   │   │   ├── Dashboard.css
+│   │   │   └── Navbar.css
+│   │   └── App.js
+│   └── package.json
+│
+└── README.md
 ```
 
 ---
 
-## ⚙ Installation & Setup
+## ⚙️ Installation & Setup
 
-### Clone the Repository
-
-```
-git clone https://github.com/YOUR_USERNAME/Taskmaster.git
+### 1. Clone the repository
+```bash
+git clone https://github.com/sunny-bits123/Taskmaster.git
 cd Taskmaster
 ```
 
-### Backend Setup
-
-```
+### 2. Backend Setup
+```bash
 cd backend
 npm install
 ```
 
-Create `.env` file inside backend:
-
+Create `.env` file inside `backend/`:
 ```
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
@@ -74,13 +103,12 @@ PORT=5000
 ```
 
 Run backend:
-```
-npm start
+```bash
+npm run dev
 ```
 
-### Frontend Setup
-
-```
+### 3. Frontend Setup
+```bash
 cd frontend
 npm install
 npm start
@@ -91,28 +119,24 @@ npm start
 ## 🔐 API Endpoints
 
 ### Auth Routes
-- POST /api/auth/register
-- POST /api/auth/login
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/auth/register | Register new user |
+| POST | /api/auth/login | Login user |
+| GET | /api/auth/me | Get current user |
 
 ### Task Routes (Protected)
-- GET /api/tasks
-- POST /api/tasks
-- PUT /api/tasks/:id
-- DELETE /api/tasks/:id
-
----
-
-## 🔄 Upcoming Features
-
-- Task filtering & sorting
-- Password reset functionality
-- UI improvements
-- Deployment (Render / Vercel)
-- Role-based authentication
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/tasks | Get all tasks |
+| POST | /api/tasks | Create new task |
+| PUT | /api/tasks/:id | Update task |
+| DELETE | /api/tasks/:id | Delete task |
+| GET | /api/tasks/stats | Get task statistics |
 
 ---
 
 ## 👨‍💻 Author
 
-Sunny Yadav  
-MERN Stack Developer
+**Sunny Yadav**
+B.Tech CSE (Data Science) 
