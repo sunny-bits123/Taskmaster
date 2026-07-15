@@ -19,7 +19,6 @@ function Navbar() {
     }
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -44,7 +43,6 @@ function Navbar() {
         <span className="navbar-logo-text">Taskmaster</span>
       </div>
 
-      {/* Right side */}
       <div className="navbar-right" ref={dropdownRef}>
         <button
           className="hamburger"
@@ -53,8 +51,7 @@ function Navbar() {
         >
           ☰
         </button>
-
-        {/* Dropdown */}
+        
         {open && (
           <div className="dropdown">
             {/* User info */}

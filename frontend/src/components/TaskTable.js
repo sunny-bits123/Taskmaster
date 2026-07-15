@@ -71,7 +71,6 @@ function TaskTable({ tasks, onDelete, onUpdate }) {
                   </td>
                 </tr>
 
-                {/* DESCRIPTION EDITOR */}
                 {activeTaskId === task._id && (
                   <tr>
                     <td colSpan="3">

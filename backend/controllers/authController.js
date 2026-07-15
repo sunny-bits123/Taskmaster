@@ -87,7 +87,6 @@ exports.login = async (req, res) => {
   }
 };
 
-// GET CURRENT USER
 exports.getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user).select("-password");
@@ -101,7 +100,6 @@ exports.getMe = async (req, res) => {
   }
 };
 
-// FORGOT PASSWORD
 exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -115,8 +113,6 @@ exports.forgotPassword = async (req, res) => {
       return res.status(404).json({ message: "No account found with that email" });
     }
 
-    // In production, send a real reset email here
-    // For now, just return a success message
     res.json({ message: "Password reset link sent to your email" });
   } catch (err) {
     console.error("ForgotPassword error:", err);

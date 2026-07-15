@@ -67,21 +67,16 @@ const Register = () => {
   return (
     <div className="auth-page">
       <div className="auth-card">
-
-        {/* Logo */}
         <div className="auth-logo">
           <div className="auth-logo-icon">✓</div>
           <span className="auth-logo-name">Taskmaster</span>
         </div>
 
-        {/* Heading */}
         <h1 className="auth-heading">Create account</h1>
         <p className="auth-subheading">Start managing your tasks today</p>
 
-        {/* Error */}
         {error && <div className="auth-error">{error}</div>}
 
-        {/* Form */}
         <form onSubmit={handleSubmit}>
           <div className="auth-field">
             <label htmlFor="name">Full Name</label>

@@ -3,7 +3,6 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const Task = require("../models/Task");
 
-// GET /api/tasks — get all tasks for logged in user
 router.get("/", auth, async (req, res) => {
   try {
     const tasks = await Task.find({ user: req.user }).sort({ createdAt: -1 });
@@ -14,7 +13,6 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// POST /api/tasks — create new task
 router.post("/", auth, async (req, res) => {
   try {
     const { title, description, status, priority, category, dueDate } = req.body;
@@ -41,7 +39,6 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-// PUT /api/tasks/:id — update task
 router.put("/:id", auth, async (req, res) => {
   try {
     const { title, description, status, priority, category, dueDate, completed } = req.body;
@@ -75,7 +72,6 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
-// DELETE /api/tasks/:id — delete task
 router.delete("/:id", auth, async (req, res) => {
   try {
     const task = await Task.findOneAndDelete({
@@ -94,7 +90,6 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-// GET /api/tasks/stats — get task statistics
 router.get("/stats", auth, async (req, res) => {
   try {
     const total = await Task.countDocuments({ user: req.user });

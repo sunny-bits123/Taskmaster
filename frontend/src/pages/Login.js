@@ -37,20 +37,16 @@ const Login = () => {
     <div className="auth-page">
       <div className="auth-card">
 
-        {/* Logo */}
         <div className="auth-logo">
           <div className="auth-logo-icon">✓</div>
           <span className="auth-logo-name">Taskmaster</span>
         </div>
 
-        {/* Heading */}
         <h1 className="auth-heading">Welcome back</h1>
         <p className="auth-subheading">Sign in to manage your tasks</p>
 
-        {/* Error */}
         {error && <div className="auth-error">{error}</div>}
 
-        {/* Form */}
         <form onSubmit={handleSubmit}>
           <div className="auth-field">
             <label htmlFor="email">Email</label>

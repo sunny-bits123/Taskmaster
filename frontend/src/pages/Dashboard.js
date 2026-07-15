@@ -25,7 +25,6 @@ const Dashboard = () => {
     headers: { Authorization: `Bearer ${token}` },
   }), [token]);
 
-  // Fetch user info
   useEffect(() => {
     if (!token) {
       navigate("/");
@@ -41,7 +40,6 @@ const Dashboard = () => {
     }
   }, [token, navigate]);
 
-  // Fetch tasks
   useEffect(() => {
     if (!token) return;
     const fetchTasks = async () => {
@@ -64,7 +62,6 @@ const Dashboard = () => {
     fetchTasks();
   }, [token, navigate, getHeaders]);
 
-  // Add task
   const handleAddTask = async (e) => {
     e.preventDefault();
     if (!newTask.title.trim()) return;
@@ -78,7 +75,6 @@ const Dashboard = () => {
     }
   };
 
-  // Update task status
   const handleStatusChange = async (taskId, newStatus) => {
     try {
       const res = await axios.put(
@@ -91,7 +87,7 @@ const Dashboard = () => {
       console.error("Failed to update task status", err);
     }
   };
-  // Edit task
+  
   const handleEdit = async (taskId, updatedData) => {
     try {
       const res = await axios.put(
@@ -105,7 +101,6 @@ const Dashboard = () => {
     }
   };
 
-  // Delete task
   const handleDelete = async (taskId) => {
     const confirmed = window.confirm("Are you sure you want to delete this task?");
     if (!confirmed) return;
@@ -117,7 +112,6 @@ const Dashboard = () => {
     }
   };
 
-  // Stats
   const totalTasks = tasks.length;
   const todoTasks = tasks.filter((t) => t.status === "To Do").length;
   const inProgressTasks = tasks.filter((t) => t.status === "In Progress").length;
@@ -126,12 +120,10 @@ const Dashboard = () => {
   return (
     <div className="dashboard-page">
 
-      {/* Navbar */}
       <Navbar />
 
       <div className="dashboard-content">
 
-        {/* Header */}
         <div className="dashboard-header">
           <div className="dashboard-header-left">
             <h2>Welcome back, {user?.name || "there"} 👋</h2>
@@ -148,7 +140,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Stats */}
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-card-top">
@@ -180,7 +171,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Add Task Form */}
         <form className="add-task-form" onSubmit={handleAddTask}>
           <input
             type="text"
@@ -215,10 +205,8 @@ const Dashboard = () => {
           </button>
         </form>
 
-        {/* Error */}
         {error && <div className="form-error">{error}</div>}
 
-        {/* Section Title */}
         <div className="kanban-section-header">
           <h3 className="kanban-section-title">📋 My Tasks</h3>
           <span className="kanban-section-count">
@@ -226,7 +214,6 @@ const Dashboard = () => {
           </span>
         </div>
 
-        {/* Loading */}
         {loading ? (
           <div className="no-tasks">Loading tasks...</div>
         ) : (

@@ -36,25 +36,20 @@ const ForgotPassword = () => {
     <div className="auth-page">
       <div className="auth-card">
 
-        {/* Logo */}
         <div className="auth-logo">
           <div className="auth-logo-icon">✓</div>
           <span className="auth-logo-name">Taskmaster</span>
         </div>
 
-        {/* Heading */}
         <h1 className="auth-heading">Reset password</h1>
         <p className="auth-subheading">
           Enter your email and we'll send you a reset link
         </p>
 
-        {/* Error */}
         {error && <div className="auth-error">{error}</div>}
 
-        {/* Success */}
         {success && <div className="auth-success">{success}</div>}
 
-        {/* Form */}
         {!success && (
           <form onSubmit={handleSubmit}>
             <div className="auth-field">

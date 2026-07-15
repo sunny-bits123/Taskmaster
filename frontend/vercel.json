@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://taskmaster-qoh9.onrender.com/api/:path*"
+    }
+  ]
+}

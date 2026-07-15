@@ -65,7 +65,6 @@ const TaskCard = ({ task, onStatusChange, onDelete, onEdit }) => {
     setIsEditing(false);
   };
 
-  // ===== EDIT MODE =====
   if (isEditing) {
     return (
       <div className="task-card task-card-editing">
@@ -131,14 +130,13 @@ const TaskCard = ({ task, onStatusChange, onDelete, onEdit }) => {
     );
   }
 
-  // ===== VIEW MODE =====
   return (
     <div className={`task-card ${task.status === "Done" ? "done" : ""}`}>
 
-      {/* Title */}
+    
       <p className="task-card-title">{task.title}</p>
 
-      {/* Tags */}
+    
       <div className="task-card-tags">
         {task.status === "Done" ? (
           <span className="tag tag-done">✓ Done</span>
@@ -157,8 +155,6 @@ const TaskCard = ({ task, onStatusChange, onDelete, onEdit }) => {
           </>
         )}
       </div>
-
-      {/* Footer */}
       <div className="task-card-footer">
         <span
           className="task-card-date"
@@ -170,7 +166,7 @@ const TaskCard = ({ task, onStatusChange, onDelete, onEdit }) => {
         </span>
 
         <div className="task-card-actions">
-          {/* Move backward */}
+         
           {prevStatus && (
             <button
               className="btn-status"
@@ -181,7 +177,6 @@ const TaskCard = ({ task, onStatusChange, onDelete, onEdit }) => {
             </button>
           )}
 
-          {/* Move forward */}
           {nextStatus && (
             <button
               className="btn-status"
@@ -192,7 +187,6 @@ const TaskCard = ({ task, onStatusChange, onDelete, onEdit }) => {
             </button>
           )}
 
-          {/* Edit — only show if task is not done */}
           {task.status !== "Done" && (
             <button
               className="btn-edit"
@@ -203,7 +197,6 @@ const TaskCard = ({ task, onStatusChange, onDelete, onEdit }) => {
             </button>
           )}
 
-          {/* Delete */}
           <button
             className="btn-delete"
             onClick={() => onDelete(task._id)}
