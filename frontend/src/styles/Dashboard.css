@@ -302,12 +302,13 @@
   gap: 16px;
   align-items: start;
 }
+
 /* ===== Kanban Column ===== */
 .kanban-column {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-height: 200px;
+  min-height: 400px;
 }
 
 .kanban-column-header {
@@ -492,13 +493,16 @@
 
 /* ===== Responsive — Tablet ===== */
 @media (max-width: 900px) {
-  .stats-grid {
+  .insight-cards {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .kanban-board {
+  .analytics-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .dashboard-search {
@@ -550,6 +554,28 @@
 
   .task-card-title {
     font-size: 13px;
+  }
+
+  .kanban-board {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .insight-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .insight-card {
+    padding: 10px;
+  }
+
+  .insight-value {
+    font-size: 13px;
+  }
+
+  .chart-wrapper {
+    height: 150px;
   }
 }
 /* ===== Task Card Edit Mode ===== */
@@ -669,7 +695,7 @@
   color: #AFA9EC;
   border-color: #26215C;
 }
-/* ===== Date Input Calendar Icon Fix ===== */
+
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1) opacity(0.5);
   cursor: pointer;
@@ -677,4 +703,246 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 input[type="date"]::-webkit-calendar-picker-indicator:hover {
   filter: invert(1) opacity(0.8);
+}
+
+.analytics-section {
+  margin-bottom: 1.5rem;
+}
+
+.analytics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.analytics-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ===== Insight Cards ===== */
+.insight-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.insight-card {
+  background: var(--bg-secondary);
+  border: 0.5px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.insight-card:hover {
+  border-color: var(--accent-light);
+  transform: translateY(-1px);
+}
+
+.insight-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.insight-content {
+  min-width: 0;
+}
+
+.insight-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.insight-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.insight-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.insight-up {
+  color: var(--status-done) !important;
+}
+
+.insight-down {
+  color: var(--priority-high-text) !important;
+}
+
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 12px;
+}
+
+.chart-card {
+  background: var(--bg-secondary);
+  border: 0.5px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.chart-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #c4c9d2;
+  margin-bottom: 1rem;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 190px;
+}
+
+.analytics-legend {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.analytics-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.analytics-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.priority-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.priority-breakdown-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.priority-breakdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.priority-breakdown-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.priority-breakdown-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.priority-breakdown-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.priority-breakdown-track {
+  height: 5px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.priority-breakdown-fill {
+  height: 100%;
+  border-radius: 10px;
+  opacity: 0.8;
+  transition: width 0.5s ease;
+}
+
+
+.category-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 0.5px solid var(--border-color);
+}
+
+.category-summary-card {
+  background: var(--bg-input);
+  border: 0.5px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+
+.category-summary-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.category-summary-number {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+
+@media (max-width: 900px) {
+  .insight-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .insight-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .insight-card {
+    padding: 10px;
+  }
+
+  .insight-value {
+    font-size: 13px;
+  }
+
+  .chart-wrapper {
+    height: 150px;
+  }
 }

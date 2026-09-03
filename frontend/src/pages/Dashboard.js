@@ -4,6 +4,7 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import KanbanBoard from "../components/KanbanBoard";
 import "../styles/Dashboard.css";
+import AnalyticsChart from "../components/AnalyticsChart";
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
@@ -16,6 +17,7 @@ const Dashboard = () => {
     dueDate: "",
   });
   const [error, setError] = useState("");
+  const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -62,31 +64,49 @@ const Dashboard = () => {
     fetchTasks();
   }, [token, navigate, getHeaders]);
 
-  const handleAddTask = async (e) => {
-    e.preventDefault();
-    if (!newTask.title.trim()) return;
-    setError("");
+  
+useEffect(() => {
+  if (!token) return;
+  const fetchAnalytics = async () => {
     try {
-      const res = await axios.post("/api/tasks", newTask, getHeaders());
-      setTasks([res.data, ...tasks]);
-      setNewTask({ title: "", priority: "Low", category: "Work", dueDate: "" });
+      const res = await axios.get("/api/tasks/analytics", getHeaders());
+      setAnalytics(res.data);
     } catch (err) {
-      setError("Failed to add task. Please try again.");
+      console.error("Failed to fetch analytics", err);
     }
   };
+  fetchAnalytics();
+}, [token, getHeaders]);
+
+  const handleAddTask = async (e) => {
+  e.preventDefault();
+  if (!newTask.title.trim()) return;
+  setError("");
+  try {
+    const res = await axios.post("/api/tasks", newTask, getHeaders());
+    setTasks([res.data, ...tasks]);
+    const analyticsRes = await axios.get("/api/tasks/analytics", getHeaders());
+    setAnalytics(analyticsRes.data);
+    setNewTask({ title: "", priority: "Low", category: "Work", dueDate: "" });
+  } catch (err) {
+    setError("Failed to add task. Please try again.");
+  }
+};
 
   const handleStatusChange = async (taskId, newStatus) => {
-    try {
-      const res = await axios.put(
-        `/api/tasks/${taskId}`,
-        { status: newStatus },
-        getHeaders()
-      );
-      setTasks(tasks.map((t) => (t._id === taskId ? res.data : t)));
-    } catch (err) {
-      console.error("Failed to update task status", err);
-    }
-  };
+  try {
+    const res = await axios.put(
+      `/api/tasks/${taskId}`,
+      { status: newStatus },
+      getHeaders()
+    );
+    setTasks(tasks.map((t) => (t._id === taskId ? res.data : t)));
+    const analyticsRes = await axios.get("/api/tasks/analytics", getHeaders());
+    setAnalytics(analyticsRes.data);
+  } catch (err) {
+    console.error("Failed to update task status", err);
+  }
+};
   
   const handleEdit = async (taskId, updatedData) => {
     try {
@@ -102,15 +122,17 @@ const Dashboard = () => {
   };
 
   const handleDelete = async (taskId) => {
-    const confirmed = window.confirm("Are you sure you want to delete this task?");
-    if (!confirmed) return;
-    try {
-      await axios.delete(`/api/tasks/${taskId}`, getHeaders());
-      setTasks(tasks.filter((t) => t._id !== taskId));
-    } catch (err) {
-      console.error("Failed to delete task", err);
-    }
-  };
+  const confirmed = window.confirm("Are you sure you want to delete this task?");
+  if (!confirmed) return;
+  try {
+    await axios.delete(`/api/tasks/${taskId}`, getHeaders());
+    setTasks(tasks.filter((t) => t._id !== taskId));
+    const analyticsRes = await axios.get("/api/tasks/analytics", getHeaders());
+    setAnalytics(analyticsRes.data);
+  } catch (err) {
+    console.error("Failed to delete task", err);
+  }
+};
 
   const totalTasks = tasks.length;
   const todoTasks = tasks.filter((t) => t.status === "To Do").length;
@@ -206,14 +228,14 @@ const Dashboard = () => {
         </form>
 
         {error && <div className="form-error">{error}</div>}
-
+   <AnalyticsChart analytics={analytics} />  
         <div className="kanban-section-header">
           <h3 className="kanban-section-title">📋 My Tasks</h3>
           <span className="kanban-section-count">
             {tasks.length} {tasks.length === 1 ? "task" : "tasks"}
           </span>
         </div>
-
+        
         {loading ? (
           <div className="no-tasks">Loading tasks...</div>
         ) : (
