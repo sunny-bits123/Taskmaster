@@ -14,6 +14,7 @@ A full-stack Kanban-based task management web application with JWT authenticatio
 - 🔀 Move tasks between columns with arrow buttons
 - 🔍 Real-time task search/filter
 - 📊 Stats dashboard (Total, To Do, In Progress, Completed)
+- 📈 Analytics dashboard with grouped bar chart and priority breakdown
 - ⚠️ Overdue task highlighting
 - 👤 User dropdown navbar with avatar
 - 🌙 Dark slate + teal theme
